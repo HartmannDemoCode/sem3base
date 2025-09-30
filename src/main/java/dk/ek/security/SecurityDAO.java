@@ -1,5 +1,6 @@
 package dk.ek.security;
 
+import dk.ek.exceptions.EntityNotFoundException;
 import dk.ek.exceptions.ValidationException;
 import dk.ek.persistence.HibernateConfig;
 import jakarta.persistence.EntityManager;
@@ -49,7 +50,18 @@ public class SecurityDAO implements ISecurityDAO{
     }
 
     @Override
-    public User addUserRole(String username, String role) {
+    public User addUserRole(String username, String roleName) throws EntityNotFoundException {
+        try(EntityManager em = emf.createEntityManager()){
+            User foundUser = em.find(User.class, username);
+            Role foundRole = em.find(Role.class, roleName);
+            if(foundUser == null || foundRole == null){
+                throw new EntityNotFoundException("Either User or Role does not exist");
+            }
+            em.getTransaction().begin();
+            foundUser.addRole(foundRole);
+            em.getTransaction().commit();
+            return foundUser;
+        }
 
     }
     public static void main(String[] args) {
@@ -57,12 +69,19 @@ public class SecurityDAO implements ISecurityDAO{
 
 //        User user = dao.createUser("user1", "pass123");
 //        System.out.println(user.getUsername()+": "+user.getPassword());
+        Role role = dao.createRole("User");
 
+        try {
+            User updatedUser = dao.addUserRole("user1", "User");
+            System.out.println(updatedUser);
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
         try {
             User validatedUser = dao.getVerifiedUser("user1", "pass123");
             System.out.println("User was validated: "+validatedUser.getUsername());
         } catch (ValidationException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }

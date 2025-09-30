@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Set;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Getter
 @Entity
 @NoArgsConstructor
+@ToString
 @Table(name="users")
 public class User implements ISecurityUser{
     @Id
