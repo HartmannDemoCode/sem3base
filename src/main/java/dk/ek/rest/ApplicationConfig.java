@@ -3,7 +3,7 @@ package dk.ek.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import dk.ek.exceptions.ApiException;
-//import dk.ek.security.ISecurityController;
+//import dk.ek.security.rest.ISecurityController;
 //import dk.ek.security.SecurityController;
 import io.javalin.Javalin;
 import io.javalin.apibuilder.EndpointGroup;
