@@ -3,6 +3,7 @@ package dk.ek.persistence;
 import dk.ek.persistence.model.*;
 //import dk.ek.security.entities.Role;
 //import dk.ek.security.entities.User;
+import dk.ek.security.User;
 import dk.ek.utils.Utils;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.SessionFactory;
@@ -39,6 +40,7 @@ public class HibernateConfig {
 //        configuration.addAnnotatedClass(User.class);
 //        configuration.addAnnotatedClass(Role.class);
         configuration.addAnnotatedClass(Person.class);
+        configuration.addAnnotatedClass(User.class);
     }
 
     private static EntityManagerFactory createEMF(boolean forTest) {
