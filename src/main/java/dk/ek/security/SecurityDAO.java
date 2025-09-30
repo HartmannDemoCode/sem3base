@@ -5,7 +5,6 @@ import dk.ek.persistence.HibernateConfig;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
-import javax.management.relation.Role;
 
 public class SecurityDAO implements ISecurityDAO{
     EntityManagerFactory emf;
@@ -16,7 +15,15 @@ public class SecurityDAO implements ISecurityDAO{
 
     @Override
     public User getVerifiedUser(String username, String password) throws ValidationException {
-        return null;
+        try(EntityManager em = emf.createEntityManager()){
+            User foundUser = em.find(User.class, username);
+
+            if(foundUser != null && foundUser.verifyPassword(password)){
+                return foundUser;
+            } else {
+                throw new ValidationException("User or Password was incorrect");
+            }
+        }
     }
 
     @Override
@@ -31,18 +38,31 @@ public class SecurityDAO implements ISecurityDAO{
     }
 
     @Override
-    public Role createRole(String role) {
-        return null;
+    public Role createRole(String roleName) {
+        Role role = new Role(roleName);
+        try(EntityManager em = emf.createEntityManager()){
+            em.getTransaction().begin();
+            em.persist(role);
+            em.getTransaction().commit();
+            return role;
+        }
     }
 
     @Override
     public User addUserRole(String username, String role) {
-        return null;
+
     }
     public static void main(String[] args) {
         ISecurityDAO dao = new SecurityDAO(HibernateConfig.getEntityManagerFactory());
 
-        User user = dao.createUser("user1", "pass123");
-        System.out.println(user.getUsername()+": "+user.getPassword());
+//        User user = dao.createUser("user1", "pass123");
+//        System.out.println(user.getUsername()+": "+user.getPassword());
+
+        try {
+            User validatedUser = dao.getVerifiedUser("user1", "pass123");
+            System.out.println("User was validated: "+validatedUser.getUsername());
+        } catch (ValidationException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

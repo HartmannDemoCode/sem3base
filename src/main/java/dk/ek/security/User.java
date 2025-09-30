@@ -1,15 +1,12 @@
 package dk.ek.security;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.mindrot.jbcrypt.BCrypt;
 
-import javax.management.relation.Role;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -22,13 +19,14 @@ public class User implements ISecurityUser{
     private String username;
     private String password;
 
+    @ManyToMany(mappedBy = "users")
+    private Set<Role> roles;
+
     public User(String username, String password){
         this.username = username;
         String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
         this.password = hashed;
     }
-
-
 
     @Override
     public boolean verifyPassword(String pw) {
@@ -37,11 +35,13 @@ public class User implements ISecurityUser{
 
     @Override
     public void addRole(Role role) {
-
+        this.roles.add(role);
+        role.getUsers().add(this);
     }
 
     @Override
-    public void removeRole(String role) {
-
+    public void removeRole(Role role) {
+        this.roles.remove(role);
+        role.users.remove(this);
     }
 }
