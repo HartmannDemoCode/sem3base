@@ -3,6 +3,8 @@ package dk.ek.persistence;
 import dk.ek.persistence.model.*;
 //import dk.ek.security.entities.Role;
 //import dk.ek.security.entities.User;
+import dk.ek.security.User;
+import dk.ek.security.Role;
 import dk.ek.utils.Utils;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.SessionFactory;
@@ -39,6 +41,8 @@ public class HibernateConfig {
 //        configuration.addAnnotatedClass(User.class);
 //        configuration.addAnnotatedClass(Role.class);
         configuration.addAnnotatedClass(Person.class);
+        configuration.addAnnotatedClass(User.class);
+        configuration.addAnnotatedClass(Role.class);
     }
 
     private static EntityManagerFactory createEMF(boolean forTest) {
@@ -73,6 +77,7 @@ public class HibernateConfig {
     private static String getDBName() {
         return Utils.getPropertyValue("db.name", "properties-from-pom.properties");
     }
+
     private static Properties setBaseProperties(Properties props){
         props.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         props.put("hibernate.connection.driver_class", "org.postgresql.Driver");
