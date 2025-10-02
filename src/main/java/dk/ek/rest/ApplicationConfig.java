@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import dk.ek.exceptions.ApiException;
 //import dk.ek.security.ISecurityController;
 //import dk.ek.security.SecurityController;
+import dk.ek.security.ISecurityController;
+import dk.ek.security.SecurityController;
 import io.javalin.Javalin;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.config.JavalinConfig;
@@ -25,7 +27,7 @@ public class ApplicationConfig {
     private static ApplicationConfig appConfig;
     private static JavalinConfig javalinConfig;
     private static Javalin app;
-//    private static ISecurityController securityController = SecurityController.getInstance();
+    private static ISecurityController securityController = new SecurityController();
 
     private ApplicationConfig() {
     }
@@ -74,12 +76,12 @@ public class ApplicationConfig {
         ctx.header("Access-Control-Allow-Credentials", "true");
     }
 
-    // Adding below methods to ApplicationConfig, means that EVERY ROUTE will be checked for security roles. So open routes must have a role of ANYONE
-//    public ApplicationConfig checkSecurityRoles() {
-//        app.beforeMatched(securityController::authenticate); // check if there is a valid token in the header
-//        app.beforeMatched(securityController::authorize); // check if the user has the required role
-//        return appConfig;
-//    }
+//     Adding below methods to ApplicationConfig, means that EVERY ROUTE will be checked for security roles. So open routes must have a role of ANYONE
+    public ApplicationConfig checkSecurityRoles() {
+        app.beforeMatched(securityController.authenticate()); // check if there is a valid token in the header
+        app.beforeMatched(securityController.authorize()); // check if the user has the required role
+        return appConfig;
+    }
 
     public ApplicationConfig startServer(int port) {
         app.start(port);

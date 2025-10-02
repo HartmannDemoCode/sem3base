@@ -43,3 +43,8 @@ POST http://{{url}}/auth/login
     "password": "pass123"
 }
 
+###
+GET http://{{url}}/protected/admin_demo
+AUTHORIZATION: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIlRob21hcyBIYXJ0bWFublwiIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NTkzOTkwMzEsInJvbGVzIjoiVXNlciIsInVzZXJuYW1lIjoidXNlcjEifQ.0b5S2tH3bPaVX_A7rPXh7t-yYy-Yl4wLd5EqjlTnPoI
+
+
