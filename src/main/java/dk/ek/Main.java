@@ -19,11 +19,6 @@ public class Main {
                 .setRoute(new RestRoutes().getOpenRoutes())
                 .setRoute(new RestRoutes().personEntityRoutes) // A different way to get the EndpointGroup.
                 .setRoute(new SecuriRoutes().getSecurityRoute)
-                .setRoute(()->{
-                    path("/index",()->{
-                        get("/",ctx->ctx.render("index.html"));
-                    });
-                })
                 .startServer(7007)
                 .setCORS()
                 .setGeneralExceptionHandling();
