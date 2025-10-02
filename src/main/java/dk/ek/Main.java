@@ -16,14 +16,14 @@ public class Main {
 //                .checkSecurityRoles() // check for role when route is called
 //                .setRoute(SecurityRoutes.getSecurityRoutes())
 //                .setRoute(SecurityRoutes.getSecuredRoutes())
-                .setRoute(new RestRoutes().getOpenRoutes())
+//                .setRoute(new RestRoutes().getOpenRoutes())
                 .setRoute(new RestRoutes().personEntityRoutes) // A different way to get the EndpointGroup.
                 .setRoute(new SecurityRoutes().getSecurityRoutes())
-                .setRoute(()->{
-                    path("/index",()->{
-                        get("/",ctx->ctx.render("index.html"));
-                    });
-                })
+//                .setRoute(()->{
+//                    path("/index",()->{
+//                        get("/",ctx->ctx.render("index.html"));
+//                    });
+//                })
                 .startServer(7007)
                 .setCORS()
                 .setGeneralExceptionHandling();

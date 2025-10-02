@@ -29,6 +29,7 @@
         <db.name>javalindemo</db.name>
         <javalin.port>7070</javalin.port>
     </properties>
+
     <repositories>
         <repository>
             <id>jitpack.io</id>

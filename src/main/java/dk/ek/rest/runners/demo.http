@@ -40,6 +40,6 @@ POST http://{{url}}/auth/login
 
 {
     "username": "user1",
-    "password": "pass12"
+    "password": "pass123"
 }
 

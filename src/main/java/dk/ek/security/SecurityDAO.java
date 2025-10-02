@@ -18,6 +18,7 @@ public class SecurityDAO implements ISecurityDAO{
     public User getVerifiedUser(String username, String password) throws ValidationException {
         try(EntityManager em = emf.createEntityManager()){
             User foundUser = em.find(User.class, username);
+            foundUser.getRoles();
 
             if(foundUser != null && foundUser.verifyPassword(password)){
                 return foundUser;
@@ -67,7 +68,7 @@ public class SecurityDAO implements ISecurityDAO{
     public static void main(String[] args) {
         ISecurityDAO dao = new SecurityDAO(HibernateConfig.getEntityManagerFactory());
 
-//        User user = dao.createUser("user1", "pass123");
+        User user = dao.createUser("user1", "pass123");
 //        System.out.println(user.getUsername()+": "+user.getPassword());
         Role role = dao.createRole("User");
 

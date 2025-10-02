@@ -21,7 +21,7 @@ public class User implements ISecurityUser{
     private String username;
     private String password;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     public User(String username, String password){
